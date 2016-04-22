@@ -20,7 +20,7 @@ class RobotsTxtRewrite
 
     private function __construct()
     {
-        add_action('admin_menu', array($this, 'options_page'));
+        add_action('admin_menu', array($this, 'menu_item'));
         add_filter('robots_txt', array($this, 'robots_txt_edit'), 10, 2);
     }
 
@@ -41,23 +41,60 @@ class RobotsTxtRewrite
             $site_url = parse_url(site_url());
             $path = (!empty($site_url['path'])) ? $site_url['path'] : '';
 
+            $options = $this->get_options();
 
-            $disallow = "Disallow: $path/wp-includes/\n";
-            $disallow .= "Disallow: $path/wp-content/plugins/\n";
-            $disallow .= "Disallow: $path/wp-content/cache/\n";
-            $disallow .= "Disallow: $path/wp-content/themes/\n";
-            $disallow .= "Disallow: $path/*?*\n";
+            $allows = '';
 
-            $pos = strpos($output, 'Disallow:');
-            $output = ($pos !== false) ? substr_replace($output, $disallow, $pos, 0) : $output;
+            foreach ($options['allows'] as $allow) {
+                if ($allow['allowed']) {
+                    $allows .= "Allow: {$allow['path']}\n";
+                } else {
+                    $allows .= "Disallow: {$allow['path']}\n";
+                }
+            }
+            $output = "User-agent: *\n";
+            $output .= $allows;
 
             $output .= "\nHost: " . get_site_url() . "\n";
         }
 
         return $output;
     }
+    public function get_options () {
+        $options = wp_parse_args(get_option('robots_options'), array(
+            'blog_public' => get_option( 'blog_public' ),
+            'allows' => array(
+                array(
+                    'allowed' => 0,
+                    'path' => '/wp-admin/',
+                ),
+                array(
+                    'allowed' => 0,
+                    'path' => '/wp-includes/',
+                ),
+                array(
+                    'allowed' => 0,
+                    'path' => '/wp-content/plugins/',
+                ),
+                array(
+                    'allowed' => 0,
+                    'path' => '/wp-content/cache/',
+                ),
+                array(
+                    'allowed' => 0,
+                    'path' => '/wp-content/themes/',
+                ),
+                array(
+                    'allowed' => 1,
+                    'path' => '/wp-admin/admin-ajax.php',
+                )
 
-    public function options_page()
+            )
+        ));
+        return $options;
+    }
+
+    public function menu_item()
     {
         $hook_suffix = add_options_page(
             'Robots.txt Options',
@@ -78,28 +115,37 @@ class RobotsTxtRewrite
 
     public function save_options()
     {
+        if (
+            isset($_POST['robots_options']) &&
+            (! isset( $_POST['robots_txt_rewrite_options_nonce_field'] )
+                || ! wp_verify_nonce( $_POST['robots_txt_rewrite_options_nonce_field'], 'save_options_robots_txt_rewrite' ) ) ) {
+            print 'Sorry, your nonce did not verify.';
+            exit;
+        }
 
+        if (isset($_POST['blog_public'])) {
+
+            update_option('blog_public', $_POST['blog_public']);
+        }
         if (isset($_POST['robots_options'])) {
             $to_save = array();
-            update_option('si_options', $to_save);
+            foreach ($_POST['robots_options']['allows'] as $allows) {
+                $to_save['allows'][] = array(
+                    'path' => sanitize_text_field($allows['path']),
+                    'allowed' => !empty($allows['allowed']),
+                );
+            }
+
+            update_option('robots_options', $to_save);
         }
+
+
+
     }
 
     public function options_page_callback()
     {
-        $options = wp_parse_args(get_option('robots_options'), array(
-            'blog_public' => 0,
-            'allowed' => array(
-                array(
-                    'allowed' => 0,
-                    'path' => '/wp-admin/',
-                ),
-                array(
-                    'allowed' => 1,
-                    'path' => '/wp-admin/admin-ajax.php',
-                )
-            )
-        ));
+        $options = $this->get_options();
 
 
         ?>
@@ -108,12 +154,13 @@ class RobotsTxtRewrite
             <h2><?php echo esc_html(get_admin_page_title()); ?></h2>
 
             <form method="post">
+                <?php wp_nonce_field( 'save_options_robots_txt_rewrite', 'robots_txt_rewrite_options_nonce_field' ); ?>
 
                 <table class="form-table">
                     <tr class="form-field form-required">
                         <th scope="row"><label>Search Engine Visibility</label></th>
                         <td><?php AtfHtmlHelper::tumbler(array(
-                                'id' => 'seo_visible',
+                                'id' => 'blog_public',
                                 'value' => $options['blog_public'],
 
                             )); ?></td>
@@ -121,7 +168,7 @@ class RobotsTxtRewrite
                     <tr class="form-required">
                         <td colspan="2">
                             <?php AtfHtmlHelper::group(array(
-                                    'name' => 'allowed',
+                                    'name' => 'robots_options[allows]',
                                     'items' => array(
 
                                         'path' => array(
@@ -139,7 +186,7 @@ class RobotsTxtRewrite
                                         ),
 
                                     ),
-                                    'value' => $options['allowed'],
+                                    'value' => $options['allows'],
                                 )
                             );
                             ?>
