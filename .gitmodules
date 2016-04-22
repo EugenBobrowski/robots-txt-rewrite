@@ -1,0 +1,3 @@
+[submodule "atf-html-helper"]
+	path = atf-html-helper
+	url = https://eugenbobrowski@bitbucket.org/eugenbobrowski/atfhtmlhelper.git
