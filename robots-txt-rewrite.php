@@ -65,6 +65,10 @@ class RobotsTxtRewrite
             'blog_public' => get_option( 'blog_public' ),
             'allows' => array(
                 array(
+                    'allowed' => 1,
+                    'path' => '/',
+                ),
+                array(
                     'allowed' => 0,
                     'path' => '/wp-admin/',
                 ),
@@ -87,7 +91,7 @@ class RobotsTxtRewrite
                 array(
                     'allowed' => 1,
                     'path' => '/wp-admin/admin-ajax.php',
-                )
+                ),
 
             )
         ));
