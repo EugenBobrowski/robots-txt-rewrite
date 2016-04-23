@@ -6,7 +6,7 @@
 /*
 Plugin Name: Robots.txt rewrite
 Plugin URI: http://wordpress.org/plugins/robots-txt-rewriter/
-Description: This is not just a plugin, it symbolizes the hope and enthusiasm of an entire generation summed up in two words sung most famously by Louis Armstrong: Hello, Dolly. When activated you will randomly see a lyric from <cite>Hello, Dolly</cite> in the upper right of your admin screen on every page.
+Description: Manage your robots.txt form admin side. A simple plugin to manage your robots.txt WordPress returning. Plugin provide to discourage search engines from indexing site. Use the stock WordPress option.
 Author: Eugen Bobrowski
 Version: 1.0
 Author URI: http://atf.li/
