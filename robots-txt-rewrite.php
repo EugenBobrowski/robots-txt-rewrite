@@ -155,7 +155,10 @@ class RobotsTxtRewrite
         ?>
         <div class="wrap atf-fields">
 
-            <h2><?php echo esc_html(get_admin_page_title()); ?></h2>
+            <h2><?php echo esc_html(get_admin_page_title()); ?>
+                <a href="<?php echo site_url('/robots.txt')?>"
+                class="page-title-action">robots.txt</a>
+            </h2>
 
             <form method="post">
                 <?php wp_nonce_field( 'save_options_robots_txt_rewrite', 'robots_txt_rewrite_options_nonce_field' ); ?>
