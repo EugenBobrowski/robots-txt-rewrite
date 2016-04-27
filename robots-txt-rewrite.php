@@ -172,7 +172,7 @@ class RobotsTxtRewrite
 
                 <table class="form-table">
                     <tr class="form-field form-required">
-                        <th scope="row"><label>Search Engine Visibility</label></th>
+                        <th scope="row"><label><?php _e('Search Engine Visibility'); ?></label></th>
                         <td><?php AtfHtmlHelper::tumbler(array(
                                 'id' => 'blog_public',
                                 'value' => $options['blog_public'],
@@ -188,14 +188,14 @@ class RobotsTxtRewrite
                                         'path' => array(
                                             'title' => __('Path', 'robots-txt-rewrite'),
                                             'type' => 'text',
-                                            'desc' => 'Relative path',
+                                            'desc' => __('Relative path', 'robots-txt-rewrite'),
 
                                         ),
                                         'allowed' => array(
-                                            'title' => 'Allow',
+                                            'title' => __('Allow', 'robots-txt-rewrite'),
                                             'type' => 'tumbler',
                                             'options' => array('plain' => 'Text', 'html' => 'HTML'),
-                                            'desc' => 'Allow / Disallow',
+                                            'desc' => __('Allow / Disallow', 'robots-txt-rewrite'),
                                             'cell_style' => 'text-align: center;',
                                         ),
 
