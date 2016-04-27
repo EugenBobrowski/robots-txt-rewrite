@@ -129,14 +129,19 @@ class RobotsTxtRewrite
 
         if (isset($_POST['blog_public'])) {
 
-            update_option('blog_public', $_POST['blog_public']);
+            update_option('blog_public', sanitize_option('blog_public', $_POST['blog_public']));
         }
         if (isset($_POST['robots_options'])) {
+            
             $to_save = array();
+            
             foreach ($_POST['robots_options']['allows'] as $allows) {
+                
+                if (!isset($allows['path']) && !isset($allows['allowed'])) continue;
+                
                 $to_save['allows'][] = array(
                     'path' => sanitize_text_field($allows['path']),
-                    'allowed' => !empty($allows['allowed']),
+                    'allowed' => intval($allows['allowed']),
                 );
             }
 
@@ -159,6 +164,8 @@ class RobotsTxtRewrite
                 <a href="<?php echo site_url('/robots.txt')?>"
                 class="page-title-action">robots.txt</a>
             </h2>
+            <?php 
+            ?>
 
             <form method="post">
                 <?php wp_nonce_field( 'save_options_robots_txt_rewrite', 'robots_txt_rewrite_options_nonce_field' ); ?>
