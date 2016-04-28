@@ -138,7 +138,7 @@ class RobotsTxtRewrite
             
             foreach ($_POST['robots_options']['allows'] as $allows) {
                 
-                if (!isset($allows['path']) && !isset($allows['allowed'])) continue;
+                if (!isset($allows['path']) || !isset($allows['allowed'])) continue;
                 
                 $to_save['allows'][] = array(
                     'path' => sanitize_text_field($allows['path']),
