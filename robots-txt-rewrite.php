@@ -58,11 +58,6 @@ class RobotsTxtRewrite
             $output .= "\nHost: " . get_site_url() . "\n";
         }
 
-        var_dump(ABSPATH, WP_CONTENT_DIR, UPLOADS);  // no trailing slash, full paths only
-//WP_CONTENT_URL  // full url
-//WP_PLUGIN_DIR  // full path, no trailing slash
-//WP_PLUGIN_URL
-
         return $output;
     }
     public function get_options () {
@@ -76,27 +71,27 @@ class RobotsTxtRewrite
                 ),
                 array(
                     'allowed' => 0,
-                    'path' => '/wp-admin/',
+                    'path' => str_replace(site_url(), '', admin_url()),
                 ),
                 array(
                     'allowed' => 0,
-                    'path' => '/wp-includes/',
+                    'path' => str_replace(site_url(), '', includes_url()),
                 ),
                 array(
                     'allowed' => 0,
-                    'path' => '/wp-content/plugins/',
+                    'path' => str_replace(site_url(), '', plugins_url('/')),
                 ),
                 array(
                     'allowed' => 0,
-                    'path' => '/wp-content/cache/',
+                    'path' => str_replace(site_url(), '', content_url('cache/')),
                 ),
                 array(
                     'allowed' => 0,
-                    'path' => '/wp-content/themes/',
+                    'path' => str_replace(site_url(), '', get_theme_root_uri()) . '/',
                 ),
                 array(
                     'allowed' => 1,
-                    'path' => '/wp-admin/admin-ajax.php',
+                    'path' => str_replace(site_url(), '', admin_url('admin-ajax.php')),
                 ),
 
             )
@@ -194,7 +189,7 @@ class RobotsTxtRewrite
                                         'path' => array(
                                             'title' => __('Path', 'robots-txt-rewrite'),
                                             'type' => 'text',
-                                            'desc' => __('Relative path', 'robots-txt-rewrite'),
+                                            'desc' => __('Relative path of WordPress installation directory', 'robots-txt-rewrite'),
 
                                         ),
                                         'allowed' => array(
