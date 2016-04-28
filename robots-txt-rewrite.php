@@ -47,9 +47,9 @@ class RobotsTxtRewrite
 
             foreach ($options['allows'] as $allow) {
                 if ($allow['allowed']) {
-                    $allows .= "Allow: {$allow['path']}\n";
+                    $allows .= "Allow: {$path}{$allow['path']}\n";
                 } else {
-                    $allows .= "Disallow: {$allow['path']}\n";
+                    $allows .= "Disallow: {$path}{$allow['path']}\n";
                 }
             }
             $output = "User-agent: *\n";
@@ -63,6 +63,7 @@ class RobotsTxtRewrite
     public function get_options () {
         $options = wp_parse_args(get_option('robots_options'), array(
             'blog_public' => get_option( 'blog_public' ),
+            //default demo paths
             'allows' => array(
                 array(
                     'allowed' => 1,
