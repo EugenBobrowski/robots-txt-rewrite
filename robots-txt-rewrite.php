@@ -37,7 +37,7 @@ class RobotsTxtRewrite
     {
         //do_robots();
 
-        if ('0' != $public) {
+        if ('0' != $public ) {
             $site_url = parse_url(site_url());
             $path = (!empty($site_url['path'])) ? $site_url['path'] : '';
 
@@ -57,6 +57,11 @@ class RobotsTxtRewrite
 
             $output .= "\nHost: " . get_site_url() . "\n";
         }
+
+        var_dump(ABSPATH, WP_CONTENT_DIR, UPLOADS);  // no trailing slash, full paths only
+//WP_CONTENT_URL  // full url
+//WP_PLUGIN_DIR  // full path, no trailing slash
+//WP_PLUGIN_URL
 
         return $output;
     }
