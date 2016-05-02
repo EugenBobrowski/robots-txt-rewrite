@@ -37,7 +37,7 @@ class RobotsTxtRewrite
     {
         //do_robots();
 
-        if ('0' != $public ) {
+        if ('0' != $public) {
             $site_url = parse_url(site_url());
             $path = (!empty($site_url['path'])) ? $site_url['path'] : '';
 
@@ -60,42 +60,64 @@ class RobotsTxtRewrite
 
         return $output;
     }
-    public function get_options () {
-        $options = wp_parse_args(get_option('robots_options'), array(
-            'blog_public' => get_option( 'blog_public' ),
+
+    public function get_options()
+    {
+        $site_url = site_url();
+
+        if (is_admin() && (strpos(content_url(), $site_url) === false )) {
+            $message = __('Your content directory is located at another domain. You can use this page to set robots options only for current domain .', 'robots-txt-rewrite');
+            echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
+        }
+
+
+
+        $defaults = array(
+            'blog_public' => get_option('blog_public'),
             //default demo paths
             'allows' => array(
                 array(
                     'allowed' => 1,
                     'path' => '/',
-                ),
-                array(
-                    'allowed' => 0,
-                    'path' => str_replace(site_url(), '', admin_url()),
-                ),
-                array(
-                    'allowed' => 0,
-                    'path' => str_replace(site_url(), '', includes_url()),
-                ),
-                array(
-                    'allowed' => 0,
-                    'path' => str_replace(site_url(), '', plugins_url('/')),
-                ),
-                array(
-                    'allowed' => 0,
-                    'path' => str_replace(site_url(), '', content_url('cache/')),
-                ),
-                array(
-                    'allowed' => 0,
-                    'path' => str_replace(site_url(), '', get_theme_root_uri()) . '/',
-                ),
-                array(
-                    'allowed' => 1,
-                    'path' => str_replace(site_url(), '', admin_url('admin-ajax.php')),
-                ),
+                )));
 
-            )
-        ));
+
+
+
+        if (strpos(admin_url(), $site_url) !== false )
+        $defaults['allows'][] = array(
+            'allowed' => 0,
+            'path' => str_replace($site_url, '', admin_url()),
+        );
+
+        if (strpos(includes_url(), $site_url) !== false )
+        $defaults['allows'][] = array(
+            'allowed' => 0,
+            'path' => str_replace($site_url, '', includes_url()),
+        );
+        if (strpos(plugins_url(), $site_url) !== false )
+        $defaults['allows'][] = array(
+            'allowed' => 0,
+            'path' => str_replace($site_url, '', plugins_url('/')),
+        );
+        if (strpos(content_url(), $site_url) !== false )
+        $defaults['allows'][] = array(
+            'allowed' => 0,
+            'path' => str_replace($site_url, '', content_url('cache/')),
+        );
+        if (strpos(get_theme_root_uri(), $site_url) !== false )
+        $defaults['allows'][] = array(
+            'allowed' => 0,
+            'path' => str_replace($site_url, '', get_theme_root_uri()) . '/',
+        );
+        if (strpos(admin_url(), $site_url) !== false )
+        $defaults['allows'][] = array(
+            'allowed' => 1,
+            'path' => str_replace($site_url, '', admin_url('admin-ajax.php')),
+        );
+
+
+        $options = wp_parse_args(get_option('robots_options'), $defaults);
         return $options;
     }
 
@@ -122,8 +144,9 @@ class RobotsTxtRewrite
     {
         if (
             isset($_POST['robots_options']) &&
-            (! isset( $_POST['robots_txt_rewrite_options_nonce_field'] )
-                || ! wp_verify_nonce( $_POST['robots_txt_rewrite_options_nonce_field'], 'save_options_robots_txt_rewrite' ) ) ) {
+            (!isset($_POST['robots_txt_rewrite_options_nonce_field'])
+                || !wp_verify_nonce($_POST['robots_txt_rewrite_options_nonce_field'], 'save_options_robots_txt_rewrite'))
+        ) {
             print 'Sorry, your nonce did not verify.';
             exit;
         }
@@ -133,13 +156,13 @@ class RobotsTxtRewrite
             update_option('blog_public', sanitize_option('blog_public', $_POST['blog_public']));
         }
         if (isset($_POST['robots_options'])) {
-            
+
             $to_save = array();
-            
+
             foreach ($_POST['robots_options']['allows'] as $allows) {
-                
+
                 if (!isset($allows['path']) || !isset($allows['allowed'])) continue;
-                
+
                 $to_save['allows'][] = array(
                     'path' => sanitize_text_field($allows['path']),
                     'allowed' => intval($allows['allowed']),
@@ -150,26 +173,25 @@ class RobotsTxtRewrite
         }
 
 
-
     }
 
     public function options_page_callback()
     {
-        $options = $this->get_options();
 
 
         ?>
         <div class="wrap atf-fields">
 
             <h2><?php echo esc_html(get_admin_page_title()); ?>
-                <a href="<?php echo site_url('/robots.txt')?>"
-                class="page-title-action">robots.txt</a>
+                <a href="<?php echo site_url('/robots.txt') ?>"
+                   class="page-title-action">robots.txt</a>
             </h2>
-            <?php 
+            <?php
+            $options = $this->get_options();
             ?>
 
             <form method="post">
-                <?php wp_nonce_field( 'save_options_robots_txt_rewrite', 'robots_txt_rewrite_options_nonce_field' ); ?>
+                <?php wp_nonce_field('save_options_robots_txt_rewrite', 'robots_txt_rewrite_options_nonce_field'); ?>
 
                 <table class="form-table">
                     <tr class="form-field form-required">
