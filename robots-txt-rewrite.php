@@ -36,12 +36,9 @@ class RobotsTxtRewrite
     public function robots_txt_edit($output, $public)
     {
         //do_robots();
-
-        if ('0' != $public) {
+        if (('0' != $public) && ($options = get_option('robots_options')) ) {
             $site_url = parse_url(site_url());
             $path = (!empty($site_url['path'])) ? $site_url['path'] : '';
-
-            $options = $this->get_options();
 
             $allows = '';
 
@@ -67,6 +64,11 @@ class RobotsTxtRewrite
 
         if (is_admin() && (strpos(content_url(), $site_url) === false )) {
             $message = __('Your content directory is located at another domain. You can use this page to set robots options only for current domain .', 'robots-txt-rewrite');
+            echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
+        }
+
+        if (file_exists(ABSPATH . '/robots.txt')) {
+            $message = __('You have an existing file robots.txt in the root of your site. Please delete it or rename to this options will be fully applied.', 'robots-txt-rewrite');
             echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
         }
 
