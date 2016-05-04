@@ -8,7 +8,7 @@ Plugin Name: Robots.txt rewrite
 Plugin URI: http://wordpress.org/plugins/robots-txt-rewriter/
 Description: Manage your robots.txt form admin side. A simple plugin to manage your robots.txt WordPress returning. Plugin provide to discourage search engines from indexing site. Use the stock WordPress option.
 Author: Eugen Bobrowski
-Version: 1.0
+Version: 1.1
 Author URI: http://atf.li/
 */
 
