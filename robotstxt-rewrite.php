@@ -5,11 +5,12 @@
  */
 /*
 Plugin Name: Robots.txt rewrite
-Plugin URI: http://wordpress.org/plugins/robots-txt-rewriter/
-Description: Manage your robots.txt form admin side. A simple plugin to manage your robots.txt WordPress returning. Plugin provide to discourage search engines from indexing site. Use the stock WordPress option.
+Plugin URI: http://wordpress.org/plugins/robotstxt-rewrite/
+Description: Manage your robots.txt form admin side. Plugin provide to help search engines to indexing site correctly. A simple plugin to manage your robots.txt. Plugin donn't create the file or edit it. This plugin edit WordPress output of robots.txt content. And get you a easy and usable interface to manage it.
 Author: Eugen Bobrowski
 Version: 1.1
 Author URI: http://atf.li/
+Text Domain: robotstxt-rewrite
 */
 
 
@@ -22,6 +23,7 @@ class RobotsTxtRewrite
     {
         add_action('admin_menu', array($this, 'menu_item'));
         add_filter('robots_txt', array($this, 'robots_txt_edit'), 10, 2);
+        add_action( 'plugins_loaded', array($this, 'load_plugin_textdomain') );
     }
 
     public static function get_instance()
@@ -31,6 +33,9 @@ class RobotsTxtRewrite
         }
         return self::$instance;
 
+    }
+    public function load_plugin_textdomain() {
+        load_plugin_textdomain( 'robotstxt-rewrite', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
     }
 
     public function robots_txt_edit($output, $public)
@@ -63,12 +68,12 @@ class RobotsTxtRewrite
         $site_url = site_url();
 
         if (is_admin() && (strpos(content_url(), $site_url) === false )) {
-            $message = __('Your content directory is located at another domain. You can use this page to set robots options only for current domain .', 'robots-txt-rewrite');
+            $message = __('Your content directory is located at another domain. You can use this page to set robots options only for current domain .', 'robotstxt-rewrite');
             echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
         }
 
         if (file_exists(ABSPATH . '/robots.txt')) {
-            $message = __('You have an existing file robots.txt in the root of your site. Please delete it or rename to this options will be fully applied.', 'robots-txt-rewrite');
+            $message = __('You have an existing file robots.txt in the root of your site. Please delete it or rename to this options will be fully applied.', 'robotstxt-rewrite');
             echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
         }
 
@@ -211,16 +216,16 @@ class RobotsTxtRewrite
                                     'items' => array(
 
                                         'path' => array(
-                                            'title' => __('Path', 'robots-txt-rewrite'),
+                                            'title' => __('Path', 'robotstxt-rewrite'),
                                             'type' => 'text',
-                                            'desc' => __('Relative path of WordPress installation directory', 'robots-txt-rewrite'),
+                                            'desc' => __('Relative path of WordPress installation directory', 'robotstxt-rewrite'),
 
                                         ),
                                         'allowed' => array(
-                                            'title' => __('Allow', 'robots-txt-rewrite'),
+                                            'title' => __('Allow', 'robotstxt-rewrite'),
                                             'type' => 'tumbler',
                                             'options' => array('plain' => 'Text', 'html' => 'HTML'),
-                                            'desc' => __('Allow / Disallow', 'robots-txt-rewrite'),
+                                            'desc' => __('Allow / Disallow', 'robotstxt-rewrite'),
                                             'cell_style' => 'text-align: center;',
                                         ),
 
