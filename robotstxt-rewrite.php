@@ -77,7 +77,7 @@ class RobotsTxtRewrite
         global $plugin_page;
 
         if (strpos($hook_suffix, $plugin_page)) {
-            include_once plugin_dir_path(__FILE__) . 'atf-html-helper/htmlhelper.php';
+            include_once plugin_dir_path(__FILE__) . 'atf-fields/htmlhelper.php';
 
             add_action('admin_enqueue_scripts', array($this, 'assets'));
             $this->save_options();
@@ -167,6 +167,7 @@ class RobotsTxtRewrite
                                         'bots' => array(
                                             'title' => __('Robots names', 'robotstxt-rewrite'),
                                             'type' => 'checkbox',
+                                            'class' => 'radio-image',
                                             'options' => array(
                                                 'googlebot' => 'Google',
                                                 'googlebot-mobile' => 'Google Mobile',
