@@ -221,6 +221,16 @@ class RobotsTxtRewrite
                                             'desc' => __('Relative path of WordPress installation directory', 'robotstxt-rewrite'),
 
                                         ),
+                                        'bots' => array(
+                                            'title' => __('Robots names', 'robotstxt-rewrite'),
+                                            'type' => 'checkbox',
+                                            'options' => array(
+                                                'googlebot' => 'Google',
+                                                'googlebot-mobile' => 'Google Mobile',
+                                                'googlebot-image'=> 'Google Images',
+                                                'Yandex' => 'Yandex',
+                                            ),
+                                        ),
                                         'allowed' => array(
                                             'title' => __('Allow', 'robotstxt-rewrite'),
                                             'type' => 'tumbler',
