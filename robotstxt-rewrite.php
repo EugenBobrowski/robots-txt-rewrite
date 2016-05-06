@@ -23,7 +23,7 @@ class RobotsTxtRewrite
     {
         add_action('admin_menu', array($this, 'menu_item'));
         add_filter('robots_txt', array($this, 'robots_txt_edit'), 10, 2);
-        add_action( 'plugins_loaded', array($this, 'load_plugin_textdomain') );
+        add_action('plugins_loaded', array($this, 'load_plugin_textdomain'));
     }
 
     public static function get_instance()
@@ -34,14 +34,16 @@ class RobotsTxtRewrite
         return self::$instance;
 
     }
-    public function load_plugin_textdomain() {
-        load_plugin_textdomain( 'robotstxt-rewrite', FALSE, basename( dirname( __FILE__ ) ) . '/languages/' );
+
+    public function load_plugin_textdomain()
+    {
+        load_plugin_textdomain('robotstxt-rewrite', FALSE, basename(dirname(__FILE__)) . '/languages/');
     }
 
     public function robots_txt_edit($output, $public)
     {
         //do_robots();
-        if (('0' != $public) && ($options = get_option('robots_options')) ) {
+        if (('0' != $public) && ($options = get_option('robots_options'))) {
             $site_url = parse_url(site_url());
             $path = (!empty($site_url['path'])) ? $site_url['path'] : '';
 
@@ -63,71 +65,6 @@ class RobotsTxtRewrite
         return $output;
     }
 
-    public function get_options()
-    {
-        $site_url = site_url();
-
-        if (is_admin() && (strpos(content_url(), $site_url) === false )) {
-            $message = __('Your content directory is located at another domain. You can use this page to set robots options only for current domain .', 'robotstxt-rewrite');
-            echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
-        }
-
-        if (file_exists(ABSPATH . '/robots.txt')) {
-            $message = __('You have an existing file robots.txt in the root of your site. Please delete it or rename to this options will be fully applied.', 'robotstxt-rewrite');
-            echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
-        }
-
-
-
-        $defaults = array(
-            'blog_public' => get_option('blog_public'),
-            //default demo paths
-            'allows' => array(
-                array(
-                    'allowed' => 1,
-                    'path' => '/',
-                )));
-
-
-
-
-        if (strpos(admin_url(), $site_url) !== false )
-        $defaults['allows'][] = array(
-            'allowed' => 0,
-            'path' => str_replace($site_url, '', admin_url()),
-        );
-
-        if (strpos(includes_url(), $site_url) !== false )
-        $defaults['allows'][] = array(
-            'allowed' => 0,
-            'path' => str_replace($site_url, '', includes_url()),
-        );
-        if (strpos(plugins_url(), $site_url) !== false )
-        $defaults['allows'][] = array(
-            'allowed' => 0,
-            'path' => str_replace($site_url, '', plugins_url('/')),
-        );
-        if (strpos(content_url(), $site_url) !== false )
-        $defaults['allows'][] = array(
-            'allowed' => 0,
-            'path' => str_replace($site_url, '', content_url('cache/')),
-        );
-        if (strpos(get_theme_root_uri(), $site_url) !== false )
-        $defaults['allows'][] = array(
-            'allowed' => 0,
-            'path' => str_replace($site_url, '', get_theme_root_uri()) . '/',
-        );
-        if (strpos(admin_url(), $site_url) !== false )
-        $defaults['allows'][] = array(
-            'allowed' => 1,
-            'path' => str_replace($site_url, '', admin_url('admin-ajax.php')),
-        );
-
-
-        $options = wp_parse_args(get_option('robots_options'), $defaults);
-        return $options;
-    }
-
     public function menu_item()
     {
         $hook_suffix = add_options_page(
@@ -141,7 +78,8 @@ class RobotsTxtRewrite
 
         if (strpos($hook_suffix, $plugin_page)) {
             include_once plugin_dir_path(__FILE__) . 'atf-html-helper/htmlhelper.php';
-            add_action('admin_enqueue_scripts', array('AtfHtmlHelper', 'assets'));
+
+            add_action('admin_enqueue_scripts', array($this, 'assets'));
             $this->save_options();
         }
 
@@ -180,6 +118,11 @@ class RobotsTxtRewrite
         }
 
 
+    }
+
+    public function assets()
+    {
+        AtfHtmlHelper::assets();
     }
 
     public function options_page_callback()
@@ -227,7 +170,7 @@ class RobotsTxtRewrite
                                             'options' => array(
                                                 'googlebot' => 'Google',
                                                 'googlebot-mobile' => 'Google Mobile',
-                                                'googlebot-image'=> 'Google Images',
+                                                'googlebot-image' => 'Google Images',
                                                 'Yandex' => 'Yandex',
                                             ),
                                         ),
@@ -254,6 +197,68 @@ class RobotsTxtRewrite
             </form>
         </div>
         <?php
+    }
+
+    public function get_options()
+    {
+        $site_url = site_url();
+
+        if (is_admin() && (strpos(content_url(), $site_url) === false)) {
+            $message = __('Your content directory is located at another domain. You can use this page to set robots options only for current domain .', 'robotstxt-rewrite');
+            echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
+        }
+
+        if (file_exists(ABSPATH . '/robots.txt')) {
+            $message = __('You have an existing file robots.txt in the root of your site. Please delete it or rename to this options will be fully applied.', 'robotstxt-rewrite');
+            echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
+        }
+
+
+        $defaults = array(
+            'blog_public' => get_option('blog_public'),
+            //default demo paths
+            'allows' => array(
+                array(
+                    'allowed' => 1,
+                    'path' => '/',
+                )));
+
+
+        if (strpos(admin_url(), $site_url) !== false)
+            $defaults['allows'][] = array(
+                'allowed' => 0,
+                'path' => str_replace($site_url, '', admin_url()),
+            );
+
+        if (strpos(includes_url(), $site_url) !== false)
+            $defaults['allows'][] = array(
+                'allowed' => 0,
+                'path' => str_replace($site_url, '', includes_url()),
+            );
+        if (strpos(plugins_url(), $site_url) !== false)
+            $defaults['allows'][] = array(
+                'allowed' => 0,
+                'path' => str_replace($site_url, '', plugins_url('/')),
+            );
+        if (strpos(content_url(), $site_url) !== false)
+            $defaults['allows'][] = array(
+                'allowed' => 0,
+                'path' => str_replace($site_url, '', content_url('cache/')),
+            );
+        if (strpos(get_theme_root_uri(), $site_url) !== false)
+            $defaults['allows'][] = array(
+                'allowed' => 0,
+                'path' => str_replace($site_url, '', get_theme_root_uri()) . '/',
+            );
+        if (strpos(admin_url(), $site_url) !== false)
+            $defaults['allows'][] = array(
+                'allowed' => 1,
+                'path' => str_replace($site_url, '', admin_url('admin-ajax.php')),
+            );
+
+
+        $options = wp_parse_args(get_option('robots_options'), $defaults);
+        return $options;
     }
 
 }
