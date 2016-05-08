@@ -167,13 +167,16 @@ class RobotsTxtRewrite
                                         'bots' => array(
                                             'title' => __('Robots names', 'robotstxt-rewrite'),
                                             'type' => 'checkbox',
-                                            'class' => 'radio-image',
+                                            'class' => 'check-buttons',
+                                            'vertical' => false,
                                             'options' => array(
                                                 'googlebot' => 'Google',
                                                 'googlebot-mobile' => 'Google Mobile',
                                                 'googlebot-image' => 'Google Images',
                                                 'Yandex' => 'Yandex',
                                             ),
+                                            'desc' => __('Select the user agents for which this setting is avelliable', 'robotstxt-rewrite'),
+
                                         ),
                                         'allowed' => array(
                                             'title' => __('Allow', 'robotstxt-rewrite'),
