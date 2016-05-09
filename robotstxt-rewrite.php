@@ -166,14 +166,19 @@ class RobotsTxtRewrite
                                         ),
                                         'bots' => array(
                                             'title' => __('Robots names', 'robotstxt-rewrite'),
-                                            'type' => 'checkbox',
-                                            'class' => 'check-buttons',
+                                            'type' => 'multiselect',
+                                            'class' => '',
                                             'vertical' => false,
                                             'options' => array(
                                                 'googlebot' => 'Google',
                                                 'googlebot-mobile' => 'Google Mobile',
                                                 'googlebot-image' => 'Google Images',
                                                 'Yandex' => 'Yandex',
+                                                '1googlebot' => 'Google',
+                                                '1googlebot-mobile' => 'Google Mobile',
+                                                '1googlebot-image' => 'Google Images',
+                                                '1Yandex' => 'Yandex',
+
                                             ),
                                             'desc' => __('Select the user agents for which this setting is avelliable', 'robotstxt-rewrite'),
 
