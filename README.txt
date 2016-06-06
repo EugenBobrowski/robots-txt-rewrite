@@ -4,7 +4,7 @@ Donate link: http://atf.li/
 Tags:  crawler, crawlers, robot, robots, robots.txt, editor, google, search, seo, spiders
 Requires at least: 4.0
 Tested up to: 4.5.1
-Stable tag: 1.1
+Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -22,6 +22,14 @@ A simple plugin to manage your robots.txt. Plugin donn't create the file or edit
 2. Activate the plugin through the 'Plugins' menu in WordPress
 3. Go to Settings / Robots.txt Options. Check the paths and save it. So the settings will be active.
 
+== Frequently Asked Questions ==
+
+= How to remove "created by" text =
+
+Use the `robots_txt_rewrite_footer` filter. Paste the following text to your theme or child theme  `functions.php` file.
+
+`add_filter('robots_txt_rewrite_footer', '__return_empty_string');`
+
 == Screenshots ==
 
 1. Robots.txt Options page
@@ -29,11 +37,23 @@ A simple plugin to manage your robots.txt. Plugin donn't create the file or edit
 
 == Changelog ==
 
+= 1.2 =
+*Release Date - 6th June, 2016*
+
+* Bug fix row repeater
+* Add created by text in the end of robots.txt content
+* Add script to open robots.txt content in new window for more usability
+
 = 1.1 =
+*Release Date - 4th May, 2016*
+
 * Add robots.txt physical file checking.
 * Applying this plugin options only if it was saved.
 * Plugin description change.
+
 = 1.0 =
+*Release Date - 1st May, 2016*
+
 * Initial
 
 == Upgrade Notice ==
