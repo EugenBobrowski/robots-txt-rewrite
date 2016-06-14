@@ -59,11 +59,12 @@ class RobotsTxtRewrite_Admin
             print 'Sorry, your nonce did not verify.';
             exit;
         }
+        if (!(isset($_POST['action']) && 'update' == $_POST['action'])) return;
 
-        if (isset($_POST['blog_public'])) {
+        if (isset($_POST['blog_public'])) $blog_public = sanitize_option('blog_public', $_POST['blog_public']);
+        else $blog_public = 0;
+        update_option('blog_public', $blog_public);
 
-            update_option('blog_public', sanitize_option('blog_public', $_POST['blog_public']));
-        }
         if (isset($_POST['robots_options'])) {
             
             $to_save = array();
@@ -109,7 +110,7 @@ class RobotsTxtRewrite_Admin
 
             <form method="post">
                 <?php wp_nonce_field('save_options_robots_txt_rewrite', 'robots_txt_rewrite_options_nonce_field'); ?>
-
+                <input type="hidden" name="action" value="update">
                 <table class="form-table">
                     <tr class="form-field form-required">
                         <th scope="row"><label><?php _e('Search Engine Visibility'); ?></label></th>
