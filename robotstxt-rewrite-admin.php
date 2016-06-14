@@ -79,6 +79,7 @@ class RobotsTxtRewrite_Admin
                     'bots' => !empty($allows['bots']) ? array_map('sanitize_text_field', $allows['bots']) : array() ,
                 );
             }
+            $to_save['site_map'] = (isset($_POST['robots_options']['site_map'])) ? sanitize_text_field($_POST['robots_options']['site_map']) : '';
 
             update_option('robots_options', $to_save);
         }
@@ -112,7 +113,7 @@ class RobotsTxtRewrite_Admin
                 <?php wp_nonce_field('save_options_robots_txt_rewrite', 'robots_txt_rewrite_options_nonce_field'); ?>
                 <input type="hidden" name="action" value="update">
                 <table class="form-table">
-                    <tr class="form-field form-required">
+                    <tr class="">
                         <th scope="row"><label><?php _e('Search Engine Visibility'); ?></label></th>
                         <td><?php AtfHtmlHelper::tumbler(array(
                                 'id' => 'blog_public',
@@ -163,6 +164,15 @@ class RobotsTxtRewrite_Admin
                             ?>
                         </td>
                     </tr>
+                    <tr class="">
+                        <th scope="row"><label><?php _e('Site map URL:'); ?></label></th>
+                        <td><?php AtfHtmlHelper::text(array(
+                                'id' => 'site_map',
+                                'name' => 'robots_options[site_map]',
+                                'value' => $options['site_map'],
+
+                            )); ?></td>
+                    </tr>
                 </table>
 
                 <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary"
@@ -197,6 +207,7 @@ class RobotsTxtRewrite_Admin
                     'path' => '/',
                 )),
             'bots' => '',
+            'site_map' => '',
             );
 
 

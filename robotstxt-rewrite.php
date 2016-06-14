@@ -66,9 +66,10 @@ class RobotsTxtRewrite
             }
             $output = '';
 
+            $site_map = (!empty($options['site_map'])) ? "\nSitemap: " . $options['site_map'] : '';
             $host = "\nHost: " . get_site_url() . "\n";
 
-            $output .= implode($host , $user_agents) . $host . "\n\n\n\n" . apply_filters('robots_txt_rewrite_footer', "# This robots.txt file was created by Robots.txt Rewrite plugin: https://wordpress.org/plugins/robotstxt-rewrite/\n");
+            $output .= implode($host , $user_agents) . $site_map . $host . "\n\n\n\n" . apply_filters('robots_txt_rewrite_footer', "# This robots.txt file was created by Robots.txt Rewrite plugin: https://wordpress.org/plugins/robotstxt-rewrite/\n");
 
 
         }
