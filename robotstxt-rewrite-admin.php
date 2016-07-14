@@ -59,11 +59,12 @@ class RobotsTxtRewrite_Admin
             print 'Sorry, your nonce did not verify.';
             exit;
         }
+        if (!(isset($_POST['action']) && 'update' == $_POST['action'])) return;
 
-        if (isset($_POST['blog_public'])) {
+        if (isset($_POST['blog_public'])) $blog_public = sanitize_option('blog_public', $_POST['blog_public']);
+        else $blog_public = 0;
+        update_option('blog_public', $blog_public);
 
-            update_option('blog_public', sanitize_option('blog_public', $_POST['blog_public']));
-        }
         if (isset($_POST['robots_options'])) {
             
             $to_save = array();
@@ -78,6 +79,7 @@ class RobotsTxtRewrite_Admin
                     'bots' => !empty($allows['bots']) ? array_map('sanitize_text_field', $allows['bots']) : array() ,
                 );
             }
+            $to_save['site_map'] = (isset($_POST['robots_options']['site_map'])) ? sanitize_text_field($_POST['robots_options']['site_map']) : '';
 
             update_option('robots_options', $to_save);
         }
@@ -109,9 +111,9 @@ class RobotsTxtRewrite_Admin
 
             <form method="post">
                 <?php wp_nonce_field('save_options_robots_txt_rewrite', 'robots_txt_rewrite_options_nonce_field'); ?>
-
+                <input type="hidden" name="action" value="update">
                 <table class="form-table">
-                    <tr class="form-field form-required">
+                    <tr class="">
                         <th scope="row"><label><?php _e('Search Engine Visibility'); ?></label></th>
                         <td><?php AtfHtmlHelper::tumbler(array(
                                 'id' => 'blog_public',
@@ -162,6 +164,15 @@ class RobotsTxtRewrite_Admin
                             ?>
                         </td>
                     </tr>
+                    <tr class="">
+                        <th scope="row"><label><?php _e('Site map URL:', 'robotstxt-rewrite'); ?></label></th>
+                        <td><?php AtfHtmlHelper::text(array(
+                                'id' => 'site_map',
+                                'name' => 'robots_options[site_map]',
+                                'value' => $options['site_map'],
+
+                            )); ?></td>
+                    </tr>
                 </table>
 
                 <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary"
@@ -175,9 +186,15 @@ class RobotsTxtRewrite_Admin
     public function get_options()
     {
         $site_url = site_url();
+        $saved = get_option('robots_options');
 
         if (is_admin() && (strpos(content_url(), $site_url) === false)) {
             $message = __('Your content directory is located at another domain. You can use this page to set robots options only for current domain .', 'robotstxt-rewrite');
+            echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
+        }
+
+        if (empty($saved)) {
+            $message = __('The current settings will be applied only after saving', 'robotstxt-rewrite');
             echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
         }
 
@@ -196,6 +213,7 @@ class RobotsTxtRewrite_Admin
                     'path' => '/',
                 )),
             'bots' => '',
+            'site_map' => '',
             );
 
 
@@ -232,7 +250,7 @@ class RobotsTxtRewrite_Admin
             );
 
 
-        $options = wp_parse_args(get_option('robots_options'), $defaults);
+        $options = wp_parse_args($saved, $defaults);
         return $options;
     }
 

@@ -8,7 +8,7 @@ Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Manage your robots.txt form admin side
+Manage your robots.txt from admin side
 
 == Description ==
 
@@ -36,6 +36,13 @@ Use the `robots_txt_rewrite_footer` filter. Paste the following text to your the
 2. robots.txt
 
 == Changelog ==
+
+= 1.3 =
+*Release Date - 14th July, 2016*
+
+* Bug fix `blog_public` option saving
+* Add site map field to show
+* Add notice if you have not saved `robots_options`
 
 = 1.2 =
 *Release Date - 6th June, 2016*
