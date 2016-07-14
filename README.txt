@@ -8,7 +8,7 @@ Stable tag: 1.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Manage your robots.txt from admin side
+Provide the easy managment of your robots.txt from admin side. It propose you the advanced then standard robots.txt content too.
 
 == Description ==
 
