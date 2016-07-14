@@ -165,7 +165,7 @@ class RobotsTxtRewrite_Admin
                         </td>
                     </tr>
                     <tr class="">
-                        <th scope="row"><label><?php _e('Site map URL:'); ?></label></th>
+                        <th scope="row"><label><?php _e('Site map URL:', 'robotstxt-rewrite'); ?></label></th>
                         <td><?php AtfHtmlHelper::text(array(
                                 'id' => 'site_map',
                                 'name' => 'robots_options[site_map]',
@@ -186,9 +186,15 @@ class RobotsTxtRewrite_Admin
     public function get_options()
     {
         $site_url = site_url();
+        $saved = get_option('robots_options');
 
         if (is_admin() && (strpos(content_url(), $site_url) === false)) {
             $message = __('Your content directory is located at another domain. You can use this page to set robots options only for current domain .', 'robotstxt-rewrite');
+            echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
+        }
+
+        if (empty($saved)) {
+            $message = __('The current settings will be applied only after saving', 'robotstxt-rewrite');
             echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
         }
 
@@ -244,7 +250,7 @@ class RobotsTxtRewrite_Admin
             );
 
 
-        $options = wp_parse_args(get_option('robots_options'), $defaults);
+        $options = wp_parse_args($saved, $defaults);
         return $options;
     }
 
