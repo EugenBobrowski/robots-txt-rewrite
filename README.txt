@@ -37,6 +37,12 @@ Use the `robots_txt_rewrite_footer` filter. Paste the following text to your the
 
 == Changelog ==
 
+= 1.4 =
+*Release Date - 18th September, 2016*
+
+* Fix PHP7 capability. Update HTML helper for admin.
+
+
 = 1.3 =
 *Release Date - 14th July, 2016*
 
