@@ -3,7 +3,16 @@
 Plugin provide to help search engines to indexing site correctly.
 
 A simple plugin to manage your robots.txt. Plugin donn't create the file or edit it. This plugin edit WordPress output of robots.txt content. And get you a easy and usable interface to manage it.
-
+
+**Features**
+
+* Drag-n-drop robots.txt paths
+* Changing `blog_public` option form plugin settings page
+* Site map field for robots.txt
+* Robots.txt physical file checking.
+
+![Screenshort](https://raw.githubusercontent.com/EugenBobrowski/robotstxt-rewrite/master/screenshot-1.png)
+
 ## Changelog
 
 ### 1.4
