@@ -3,8 +3,8 @@ Contributors: eugenbobrowski
 Donate link: http://atf.li/
 Tags:  crawler, crawlers, robot, robots, robots.txt, editor, google, search, seo, spiders
 Requires at least: 4.0
-Tested up to: 4.5.1
-Stable tag: 1.3
+Tested up to: 4.7.1
+Stable tag: 1.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -45,6 +45,12 @@ Use the `robots_txt_rewrite_footer` filter. Paste the following text to your the
 2. robots.txt
 
 == Changelog ==
+
+= 1.4 =
+*Release Date - 17th January, 2017*
+
+* Add Crawl-delay rule.
+
 
 = 1.4 =
 *Release Date - 18th September, 2016*

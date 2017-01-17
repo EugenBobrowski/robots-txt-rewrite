@@ -80,6 +80,7 @@ class RobotsTxtRewrite_Admin
                 );
             }
             $to_save['site_map'] = (isset($_POST['robots_options']['site_map'])) ? sanitize_text_field($_POST['robots_options']['site_map']) : '';
+            $to_save['crawl_delay'] = (isset($_POST['robots_options']['crawl_delay'])) ? sanitize_text_field($_POST['robots_options']['crawl_delay']) : '';
 
             update_option('robots_options', $to_save);
         }
@@ -173,6 +174,16 @@ class RobotsTxtRewrite_Admin
 
                             )); ?></td>
                     </tr>
+                    <tr class="">
+                        <th scope="row"><label><?php _e('Crawl-delay:', 'robotstxt-rewrite'); ?></label></th>
+                        <td><?php AtfHtmlHelper::text(array(
+                                'id' => 'crawl_delay',
+                                'name' => 'robots_options[crawl_delay]',
+                                'value' => $options['crawl_delay'],
+                                'desc' => __('In seconds. This rule is ignored by Googlebot', 'robotstxt-rewrite')
+
+                            )); ?></td>
+                    </tr>
                 </table>
 
                 <p class="submit"><input type="submit" name="submit" id="submit" class="button button-primary"
@@ -214,6 +225,7 @@ class RobotsTxtRewrite_Admin
                 )),
             'bots' => '',
             'site_map' => '',
+            'crawl_delay' => '',
             );
 
 

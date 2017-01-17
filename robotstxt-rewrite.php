@@ -8,8 +8,8 @@ Plugin Name: Robots.txt rewrite
 Plugin URI: http://wordpress.org/plugins/robotstxt-rewrite/
 Description: Manage your robots.txt form admin side. Plugin provide to help search engines to indexing site correctly. A simple plugin to manage your robots.txt. Plugin donn't create the file or edit it. This plugin edit WordPress output of robots.txt content. And get you a easy and usable interface to manage it.
 Author: Eugen Bobrowski
-Version: 1.4
-Author URI: http://atf.li/
+Version: 1.5
+Author URI: http://bobrowski.ru/
 Text Domain: robotstxt-rewrite
 */
 
@@ -67,9 +67,10 @@ class RobotsTxtRewrite
             $output = '';
 
             $site_map = (!empty($options['site_map'])) ? "\nSitemap: " . $options['site_map'] : '';
+            $crawl_delay = (!empty($options['crawl_delay'])) ? "\nCrawl-Delay: " . $options['crawl_delay'] : '';
             $host = "\nHost: " . get_site_url() . "\n";
 
-            $output .= implode($host , $user_agents) . $site_map . $host . "\n\n\n\n" . apply_filters('robots_txt_rewrite_footer', "# This robots.txt file was created by Robots.txt Rewrite plugin: https://wordpress.org/plugins/robotstxt-rewrite/\n");
+            $output .= implode("\n\n" , $user_agents) . $site_map . $crawl_delay . $host . apply_filters('robots_txt_rewrite_footer', "\n\n\n\n# This robots.txt file was created by Robots.txt Rewrite plugin: https://wordpress.org/plugins/robotstxt-rewrite/\n");
 
 
         }
