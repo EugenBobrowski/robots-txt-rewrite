@@ -81,6 +81,7 @@ class RobotsTxtRewrite_Admin
             }
             $to_save['site_map'] = (isset($_POST['robots_options']['site_map'])) ? sanitize_text_field($_POST['robots_options']['site_map']) : '';
             $to_save['crawl_delay'] = (isset($_POST['robots_options']['crawl_delay'])) ? sanitize_text_field($_POST['robots_options']['crawl_delay']) : '';
+            $to_save['custom_content'] = (isset($_POST['robots_options']['custom_content'])) ? sanitize_textarea_field($_POST['robots_options']['custom_content']) : '';
 
             update_option('robots_options', $to_save);
         }
@@ -147,7 +148,7 @@ class RobotsTxtRewrite_Admin
 //                                                'Yandex' => 'Yandex',
 //                                            ),
 //                                            'value' => $options['bots'],
-//                                            'desc' => __('Select the user agents for which this setting is avelliable', 'robotstxt-rewrite'),
+//                                            'desc' => __('Select the user agents for which this setting is available', 'robotstxt-rewrite'),
 //
 //                                        ),
                                         'allowed' => array(
@@ -181,6 +182,16 @@ class RobotsTxtRewrite_Admin
                                 'name' => 'robots_options[crawl_delay]',
                                 'value' => $options['crawl_delay'],
                                 'desc' => __('In seconds. This rule is ignored by Googlebot', 'robotstxt-rewrite')
+
+                            )); ?></td>
+                    </tr>
+                    <tr class="">
+                        <th scope="row"><label><?php _e('Custom robots.txt content:', 'robotstxt-rewrite'); ?></label></th>
+                        <td><?php AtfHtmlHelper::textarea(array(
+                                'id' => 'custom_content',
+                                'name' => 'robots_options[custom_content]',
+                                'value' => $options['custom_content'],
+                                'desc' => __('', 'robotstxt-rewrite')
 
                             )); ?></td>
                     </tr>
@@ -226,6 +237,7 @@ class RobotsTxtRewrite_Admin
             'bots' => '',
             'site_map' => '',
             'crawl_delay' => '',
+            'custom_content' => '',
             );
 
 

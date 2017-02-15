@@ -69,8 +69,9 @@ class RobotsTxtRewrite
             $site_map = (!empty($options['site_map'])) ? "\nSitemap: " . $options['site_map'] : '';
             $crawl_delay = (!empty($options['crawl_delay'])) ? "\nCrawl-Delay: " . $options['crawl_delay'] : '';
             $host = "\nHost: " . get_site_url() . "\n";
+            $custom = (!empty($options['custom_content'])) ? "\n" . $options['custom_content'] . "\n" : '';
 
-            $output .= implode("\n\n" , $user_agents) . $site_map . $crawl_delay . $host . apply_filters('robots_txt_rewrite_footer', "\n\n\n\n# This robots.txt file was created by Robots.txt Rewrite plugin: https://wordpress.org/plugins/robotstxt-rewrite/\n");
+            $output .= implode("\n\n" , $user_agents) . $site_map . $crawl_delay . $host . $custom . apply_filters('robots_txt_rewrite_footer', "\n\n\n\n# This robots.txt file was created by Robots.txt Rewrite plugin: https://wordpress.org/plugins/robotstxt-rewrite/\n");
 
 
         }
