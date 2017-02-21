@@ -4,7 +4,7 @@ Donate link: http://atf.li/
 Tags:  crawler, crawlers, robot, robots, robots.txt, editor, google, search, seo, spiders
 Requires at least: 4.0
 Tested up to: 4.7.1
-Stable tag: 1.5
+Stable tag: 1.6
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,7 +46,12 @@ Use the `robots_txt_rewrite_footer` filter. Paste the following text to your the
 
 == Changelog ==
 
-= 1.4 =
+= 1.6 =
+*Release Date - 21st February, 2017*
+
+* Add custom content fields.
+
+= 1.5 =
 *Release Date - 17th January, 2017*
 
 * Add Crawl-delay rule.

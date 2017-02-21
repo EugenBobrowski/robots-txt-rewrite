@@ -8,7 +8,7 @@ Plugin Name: Robots.txt rewrite
 Plugin URI: http://wordpress.org/plugins/robotstxt-rewrite/
 Description: Manage your robots.txt form admin side. Plugin provide to help search engines to indexing site correctly. A simple plugin to manage your robots.txt. Plugin donn't create the file or edit it. This plugin edit WordPress output of robots.txt content. And get you a easy and usable interface to manage it.
 Author: Eugen Bobrowski
-Version: 1.5
+Version: 1.6
 Author URI: http://bobrowski.ru/
 Text Domain: robotstxt-rewrite
 */

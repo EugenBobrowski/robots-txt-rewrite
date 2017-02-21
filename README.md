@@ -15,6 +15,16 @@ A simple plugin to manage your robots.txt. Plugin donn't create the file or edit
 
 ## Changelog
 
+### 1.6
+*Release Date - 21st February, 2017*
+
+* Add custom content fields.
+
+### 1.5
+*Release Date - 17th January, 2017*
+
+* Add Crawl-delay rule.
+
 ### 1.4
 *Release Date - 18th September, 2016*
 
