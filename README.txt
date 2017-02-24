@@ -2,9 +2,9 @@
 Contributors: eugenbobrowski
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=UUWASQ4U7BNUE
 Tags:  crawler, crawlers, robot, robots, robots.txt, editor, google, search, seo, spiders
-Requires at least: 4.0
-Tested up to: 4.7.1
-Stable tag: 1.5
+Requires at least: 4.7
+Tested up to: 4.7.2
+Stable tag: 1.6.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,17 +46,25 @@ Use the `robots_txt_rewrite_footer` filter. Paste the following text to your the
 
 == Changelog ==
 
-= 1.4 =
+= 1.6.1 =
+*Release Date - 21st February, 2017*
+
+* Add required version notice.
+
+= 1.6 =
+*Release Date - 21st February, 2017*
+
+* Add custom content fields.
+
+= 1.5 =
 *Release Date - 17th January, 2017*
 
 * Add Crawl-delay rule.
-
 
 = 1.4 =
 *Release Date - 18th September, 2016*
 
 * Fix PHP7 capability. Update HTML helper for admin.
-
 
 = 1.3 =
 *Release Date - 14th July, 2016*

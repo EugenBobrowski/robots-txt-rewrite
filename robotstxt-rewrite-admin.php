@@ -81,7 +81,13 @@ class RobotsTxtRewrite_Admin
             }
             $to_save['site_map'] = (isset($_POST['robots_options']['site_map'])) ? sanitize_text_field($_POST['robots_options']['site_map']) : '';
             $to_save['crawl_delay'] = (isset($_POST['robots_options']['crawl_delay'])) ? sanitize_text_field($_POST['robots_options']['crawl_delay']) : '';
-            $to_save['custom_content'] = (isset($_POST['robots_options']['custom_content'])) ? sanitize_textarea_field($_POST['robots_options']['custom_content']) : '';
+            $to_save['custom_content'] = (isset($_POST['robots_options']['custom_content'])) ?
+                (
+                    (function_exists('sanitize_textarea_field')) ?
+                        sanitize_textarea_field($_POST['robots_options']['custom_content']) :
+                        trim($_POST['robots_options']['custom_content'])
+                ) :
+                '';
 
             update_option('robots_options', $to_save);
         }
@@ -191,7 +197,8 @@ class RobotsTxtRewrite_Admin
                                 'id' => 'custom_content',
                                 'name' => 'robots_options[custom_content]',
                                 'value' => $options['custom_content'],
-                                'desc' => __('', 'robotstxt-rewrite')
+                                'class' => 'large-text',
+                                'desc' => __('For specific crawlers.', 'robotstxt-rewrite')
 
                             )); ?></td>
                     </tr>
@@ -222,6 +229,15 @@ class RobotsTxtRewrite_Admin
 
         if (file_exists(ABSPATH . '/robots.txt')) {
             $message = __('You have an existing file robots.txt in the root of your site. Please delete it or rename to this options will be fully applied.', 'robotstxt-rewrite');
+            echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
+        }
+
+        global $wp_version;
+        if (version_compare($wp_version, '4.7') < 0) {
+            $message = sprintf(
+                __('Robots.txt Rewrite require version 4.7 or higher. Your Wordpress version is %s. ', 'robotstxt-rewrite'),
+                $wp_version
+            );
             echo "<div class='notice notice-warning'><p>" . $message . "</p></div>";
         }
 
